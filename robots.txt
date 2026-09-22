@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hamzaishaq033-boop.github.io/homenest/sitemap.xml
