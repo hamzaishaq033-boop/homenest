@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +8,52 @@
   <title>HomeNest — Smart Ideas for Better Living</title>
 
   <meta name="description"
-    content="Practical home organization ideas, useful home-item guides, kitchen tips, cleaning advice, bedroom essentials and home decor inspiration.">
+    content="Discover practical home organization ideas, storage solutions, cleaning tips, kitchen guides, bedroom ideas, home decor inspiration and useful buying guides.">
 
-  <meta name="google-site-verification" content="PO2u_43AuDkF5000Yihf53EzfjlhtuflF50uHynwcxQ" />
+  <meta name="author" content="HomeNest Editorial Team">
+
+  <link rel="canonical" href="https://hamzaishaq033-boop.github.io/homenest/">
+
+  <meta name="google-site-verification" content="PO2u_43AuDkF5000Yihf53EzfjlhtuflF50uHynwcxQ">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HomeNest — Smart Ideas for Better Living">
+  <meta property="og:description"
+    content="Discover practical home organization ideas, storage solutions, cleaning tips, kitchen guides, bedroom ideas, home decor inspiration and useful buying guides.">
+  <meta property="og:url" content="https://hamzaishaq033-boop.github.io/homenest/">
+  <meta property="og:site_name" content="HomeNest">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HomeNest — Smart Ideas for Better Living">
+  <meta name="twitter:description"
+    content="Practical home ideas, organization guides, cleaning tips, decor inspiration and useful buying guides.">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "HomeNest",
+    "url": "https://hamzaishaq033-boop.github.io/homenest/",
+    "description": "Practical home organization ideas, storage solutions, cleaning tips, kitchen guides, bedroom ideas, home decor inspiration and useful buying guides.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "HomeNest",
+      "url": "https://hamzaishaq033-boop.github.io/homenest/"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "HomeNest",
+    "url": "https://hamzaishaq033-boop.github.io/homenest/"
+  }
+  </script>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -19,18 +63,24 @@
 <header class="header">
   <div class="container nav">
 
-    <a href="index.html" class="logo">
+    <a href="index.html" class="logo" aria-label="HomeNest Home">
       Home<span>Nest</span>
     </a>
 
-    <nav id="nav">
+    <nav id="nav" aria-label="Main navigation">
       <a href="#categories">Categories</a>
       <a href="#featured">Featured</a>
       <a href="#latest">Latest</a>
       <a href="#about">About</a>
     </nav>
 
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()"
+      aria-label="Open navigation menu"
+      type="button">
+      ☰
+    </button>
 
   </div>
 </header>
@@ -74,7 +124,7 @@
     </div>
 
 
-    <div class="hero-visual">
+    <div class="hero-visual" aria-hidden="true">
 
       <div class="hero-image">
         HOME<br>
@@ -196,10 +246,9 @@
 
     <div class="article-grid">
 
-
       <article class="article-card featured-card">
 
-        <div class="article-image kitchen">
+        <div class="article-image kitchen" aria-hidden="true">
           ORGANIZE
         </div>
 
@@ -229,7 +278,7 @@
 
       <article class="article-card">
 
-        <div class="article-image organization">
+        <div class="article-image organization" aria-hidden="true">
           STORAGE
         </div>
 
@@ -258,7 +307,7 @@
 
       <article class="article-card">
 
-        <div class="article-image bathroom">
+        <div class="article-image bathroom" aria-hidden="true">
           BATHROOM
         </div>
 
@@ -293,7 +342,7 @@
 
 <!-- AD PLACEHOLDER -->
 
-<div class="container ad-box">
+<div class="container ad-box" aria-label="Advertisement placeholder">
   <span>ADVERTISEMENT</span>
 </div>
 
@@ -323,10 +372,9 @@
 
     <div class="latest-grid">
 
-
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           01
         </div>
 
@@ -352,7 +400,7 @@
 
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           02
         </div>
 
@@ -378,7 +426,7 @@
 
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           03
         </div>
 
@@ -404,7 +452,7 @@
 
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           04
         </div>
 
@@ -430,7 +478,7 @@
 
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           05
         </div>
 
@@ -456,7 +504,7 @@
 
       <article class="mini-article">
 
-        <div class="mini-image">
+        <div class="mini-image" aria-hidden="true">
           06
         </div>
 
@@ -486,7 +534,7 @@
 </section>
 
 
-<!-- NEWSLETTER -->
+<!-- NEWSLETTER / SITE UPDATE -->
 
 <section class="newsletter">
 
@@ -495,36 +543,25 @@
     <div>
 
       <p class="eyebrow">
-        GET THE GOOD STUFF
+        STAY UPDATED
       </p>
 
       <h2>
         Simple ideas,
-        straight to your inbox.
+        straight from HomeNest.
       </h2>
 
       <p>
-        Occasional home tips and new guides.
-        No unnecessary noise.
+        Explore new home guides and practical ideas as they are published.
       </p>
 
     </div>
 
-
-    <form onsubmit="subscribe(event)">
-
-      <input
-        id="email"
-        type="email"
-        placeholder="Your email address"
-        required
-      >
-
-      <button class="btn primary">
-        Subscribe
-      </button>
-
-    </form>
+    <div>
+      <a href="contact.html" class="btn primary">
+        Contact HomeNest
+      </a>
+    </div>
 
   </div>
 
@@ -572,7 +609,7 @@
 
     <div>
 
-      <a href="index.html" class="logo">
+      <a href="index.html" class="logo" aria-label="HomeNest Home">
         Home<span>Nest</span>
       </a>
 
@@ -642,3 +679,4 @@
 
 </body>
 </html>
+```
