@@ -1,72 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  const articlePages = {
-    "article.html": {
-      image: "https://images.unsplash.com/photo-1583845112203-454c84f5c6b6?auto=format&fit=crop&w=1400&q=85",
-      alt: "Beautiful organized home interior"
-    },
-
-    "storage.html": {
-      image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=1400&q=85",
-      alt: "Organized storage space in a home"
-    },
-
-    "bathroom.html": {
-      image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1400&q=85",
-      alt: "Clean and organized bathroom"
-    },
-
-    "closet.html": {
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1400&q=85",
-      alt: "Organized bedroom and closet space"
-    },
-
-    "pantry.html": {
-      image: "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?auto=format&fit=crop&w=1400&q=85",
-      alt: "Organized kitchen pantry"
-    },
-
-    "cleaning.html": {
-      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1400&q=85",
-      alt: "Home cleaning supplies"
-    },
-
-    "bedroom.html": {
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1400&q=85",
-      alt: "Organized and comfortable bedroom"
-    },
-
-    "decor.html": {
-      image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1400&q=85",
-      alt: "Stylish home interior decor"
-    },
-
-    "food-storage.html": {
-      image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=1400&q=85",
-      alt: "Kitchen food storage containers"
-    }
-  };
-
-  const currentPage = window.location.pathname
-    .split("/")
-    .pop()
-    .toLowerCase();
-
-  if (!articlePages[currentPage]) {
-    document.querySelectorAll("#year, [data-current-year]").forEach(function (el) {
-      el.textContent = new Date().getFullYear();
-    });
-    return;
-  }
-
-
-  /* --------------------------------
-     REMOVE ONLY VISIBLE CODE FENCES
-     -------------------------------- */
-
+  /*
+   * Remove accidental Markdown code fences that were pasted
+   * into HTML files and are appearing as visible text.
+   */
   const walker = document.createTreeWalker(
     document.body,
-    NodeFilter.SHOW_TEXT
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function (node) {
+        const parent = node.parentElement;
+
+        if (!parent) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        const tag = parent.tagName;
+
+        if (
+          tag === "SCRIPT" ||
+          tag === "STYLE" ||
+          tag === "PRE" ||
+          tag === "CODE" ||
+          tag === "TEXTAREA"
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
   );
 
   const textNodes = [];
@@ -76,93 +39,187 @@ document.addEventListener("DOMContentLoaded", function () {
     textNodes.push(currentNode);
   }
 
-  textNodes.forEach(function (textNode) {
+  textNodes.forEach(function (node) {
 
-    const parent = textNode.parentElement;
-
-    if (!parent) return;
-
-    if (
-      parent.tagName === "SCRIPT" ||
-      parent.tagName === "STYLE" ||
-      parent.tagName === "NOSCRIPT"
-    ) {
-      return;
-    }
-
-    let text = textNode.nodeValue || "";
+    let text = node.nodeValue;
 
     text = text.replace(/```html/gi, "");
     text = text.replace(/```/g, "");
 
-    textNode.nodeValue = text;
+    if (text !== node.nodeValue) {
+      node.nodeValue = text;
+    }
+
   });
 
 
-  /* --------------------------------
-     RESTORE / ADD ARTICLE MAIN IMAGE
-     -------------------------------- */
+  /*
+   * Make sure every page has a Home link in the main navigation.
+   */
+  document.querySelectorAll("nav").forEach(function (nav) {
 
-  const main = document.querySelector("main");
+    const links = Array.from(nav.querySelectorAll("a"));
 
-  if (main) {
+    const hasHome = links.some(function (link) {
 
-    const existingImage = main.querySelector(
-      ".article-featured-image img"
-    );
+      const text = link.textContent.trim().toLowerCase();
+      const href = (link.getAttribute("href") || "").toLowerCase();
 
-    if (existingImage) {
+      return (
+        text === "home" ||
+        href === "index.html" ||
+        href === "./index.html" ||
+        href.endsWith("/index.html")
+      );
 
-      existingImage.src = articlePages[currentPage].image;
-      existingImage.alt = articlePages[currentPage].alt;
+    });
 
-    } else {
 
-      const figure = document.createElement("figure");
+    if (!hasHome) {
 
-      figure.className = "article-featured-image";
+      const homeLink = document.createElement("a");
 
-      figure.style.width = "100%";
-      figure.style.margin = "0 0 35px 0";
-      figure.style.borderRadius = "18px";
-      figure.style.overflow = "hidden";
+      homeLink.href = "index.html";
+      homeLink.textContent = "Home";
 
-      const image = document.createElement("img");
+      nav.insertBefore(homeLink, nav.firstChild);
 
-      image.src = articlePages[currentPage].image;
-      image.alt = articlePages[currentPage].alt;
-      image.loading = "eager";
-      image.decoding = "async";
+    }
 
-      image.style.display = "block";
-      image.style.width = "100%";
-      image.style.height = "auto";
-      image.style.maxHeight = "560px";
-      image.style.objectFit = "cover";
-      image.style.borderRadius = "18px";
+  });
 
-      figure.appendChild(image);
 
-      const article =
-        main.querySelector("article") || main;
+  /*
+   * Make sure footer always contains all main navigation links.
+   */
+  document.querySelectorAll(".site-footer").forEach(function (footer) {
 
-      const heading = article.querySelector("h1");
+    let footerLinks =
+      footer.querySelector(".footer-links") ||
+      footer.querySelector(".footer-main");
 
-      if (heading) {
-        heading.insertAdjacentElement("afterend", figure);
-      } else {
-        article.insertBefore(figure, article.firstChild);
+    if (!footerLinks) {
+      footerLinks = footer.querySelector(".footer-inner");
+
+      if (!footerLinks) {
+        footerLinks = footer.querySelector(".container");
       }
     }
-  }
 
 
-  /* --------------------------------
-     FOOTER YEAR
-     -------------------------------- */
+    if (!footerLinks) {
+      return;
+    }
 
-  document.querySelectorAll("#year, [data-current-year]").forEach(function (el) {
-    el.textContent = new Date().getFullYear();
+
+    const requiredLinks = [
+      {
+        name: "Home",
+        href: "index.html"
+      },
+      {
+        name: "About",
+        href: "about.html"
+      },
+      {
+        name: "Contact",
+        href: "contact.html"
+      },
+      {
+        name: "Privacy Policy",
+        href: "privacy.html"
+      },
+      {
+        name: "Terms of Use",
+        href: "terms.html"
+      }
+    ];
+
+
+    requiredLinks.forEach(function (item) {
+
+      const exists = Array.from(
+        footer.querySelectorAll("a[href]")
+      ).some(function (link) {
+
+        const href = (link.getAttribute("href") || "").toLowerCase();
+
+        return href === item.href.toLowerCase();
+
+      });
+
+
+      if (!exists) {
+
+        const link = document.createElement("a");
+
+        link.href = item.href;
+        link.textContent = item.name;
+
+        let targetContainer =
+          footer.querySelector(".footer-links") ||
+          footer.querySelector(".footer-column");
+
+        if (!targetContainer) {
+          targetContainer = footerLinks;
+        }
+
+        targetContainer.appendChild(link);
+
+      }
+
+    });
+
+  });
+
+
+  /*
+   * Add image fallback for broken remote images.
+   */
+  const fallbackImage =
+    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85";
+
+
+  document.querySelectorAll("img").forEach(function (image) {
+
+    image.addEventListener("error", function () {
+
+      if (!image.dataset.fallbackUsed) {
+
+        image.dataset.fallbackUsed = "true";
+        image.src = fallbackImage;
+
+      }
+
+    });
+
+  });
+
+
+  /*
+   * Automatically update footer year.
+   */
+  document.querySelectorAll("[data-current-year]").forEach(function (element) {
+    element.textContent = new Date().getFullYear();
+  });
+
+
+  /*
+   * Open external links safely in a new tab.
+   */
+  document.querySelectorAll("a[href]").forEach(function (link) {
+
+    const href = link.getAttribute("href");
+
+    if (
+      href &&
+      (href.startsWith("http://") || href.startsWith("https://")) &&
+      !href.includes(window.location.hostname)
+    ) {
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
+    }
+
   });
 
 });
